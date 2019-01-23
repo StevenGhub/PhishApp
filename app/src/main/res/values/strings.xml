@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Phish App</string>
+    <string name="enter_email">Email</string>
+    <string name="enter_password">Password</string>
+    <string name="enter">Sign In</string>
+    <string name="register">Register</string>
+    <string name="success_message">success</string>
+    <string name="new_email">Email</string>
+    <string name="new_password">Password</string>
+    <string name="retype_password">Retype Password</string>
+    <string name="new_register">REGISTER</string>
+    <string name="blog_title">Title</string>
+    <string name="blog_date">Date</string>
+    <string name="blog_teaser">Teaser</string>
+    <string name="view_title_text">ViewTitleText</string>
+    <string name="view_date_text">ViewDateText</string>
+    <string name="view_teaser_text">ViewTeaserText</string>
+    <string name="full_post">Full Post</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Phish App</string>
+    <string name="nav_header_subtitle">TCSS 450 Labs</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+</resources>
