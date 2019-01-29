@@ -11,5 +11,9 @@
         android:id="@+id/menuBlog"
         android:icon="@drawable/ic_menu_gallery"
         android:title="Blog Posts" />
+    <item
+        android:id="@+id/setLists"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="setLists" />
 
 </menu>

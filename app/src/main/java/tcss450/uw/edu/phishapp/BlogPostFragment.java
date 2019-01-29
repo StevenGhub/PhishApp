@@ -1,4 +1,4 @@
-package tcss450.uw.edu.phishapp.model;
+package tcss450.uw.edu.phishapp;
 
 
 

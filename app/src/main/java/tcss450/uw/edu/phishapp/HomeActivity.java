@@ -1,6 +1,7 @@
 package tcss450.uw.edu.phishapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,15 +17,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import tcss450.uw.edu.phishapp.blog.BlogPost;
-import tcss450.uw.edu.phishapp.model.BlogPostFragment;
-import tcss450.uw.edu.phishapp.model.SuccessFragment;
+import tcss450.uw.edu.phishapp.model.Credentials;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        BlogFragment.OnListFragmentInteractionListener{
+        BlogFragment.OnListFragmentInteractionListener,
+        WaitFragment.OnFragmentInteractionListener{
 
     private SuccessFragment successFragment;
+    private String mJwToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +61,11 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intent = getIntent();
+        Bundle args = intent.getExtras();
         successFragment = new SuccessFragment();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        Bundle args = new Bundle();
-        args.putSerializable(getString(R.string.success_message), message);
+        mJwToken = getIntent().getStringExtra(getString(R.string.keys_intent_jwt));
+        //String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        //args.putSerializable(getString(R.string.success_message), message);
         successFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction().add(R.id.content_home, successFragment)
@@ -109,18 +119,41 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.menuHome) {
             loadFragment(successFragment);
-
         } else if (id == R.id.menuBlog) {
-            loadFragment(new BlogFragment());
+            Uri uri = new Uri.Builder()
+                    .scheme("https")
+                    .appendPath(getString(R.string.ep_base_url))
+                    .appendPath(getString(R.string.ep_phish))
+                    .appendPath(getString(R.string.ep_blog))
+                    .appendPath(getString(R.string.ep_get))
+                    .build();
+
+            new GetAsyncTask.Builder(uri.toString())
+                    .onPreExecute(this::onWaitFragmentInteractionShow)
+                    .onPostExecute(this::handleBlogGetOnPostExecute)
+                    .addHeaderField("authorization", mJwToken) //add the JWT as a header
+                    .build().execute();
+        } else if (id == R.id.setLists) {
+            Uri uri = new Uri.Builder()
+                    .scheme("https")
+                    .appendPath(getString(R.string.ep_base_url))
+                    .appendPath(getString(R.string.ep_phish))
+                    .appendPath(getString(R.string.ep_setlists))
+                    .appendPath(getString(R.string.ep_recent))
+                    .build();
+            new GetAsyncTask.Builder(uri.toString())
+                    .onPreExecute(this::onWaitFragmentInteractionShow)
+                    .onPostExecute(this::handleSetListsOnPostExecute)
+                    .addHeaderField("authorization", mJwToken) //add the JWT as a header
+                    .build().execute();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     private void loadFragment(Fragment frag) {
-        FragmentManager fm = getSupportFragmentManager();
-        fm.popBackStack();
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content_home, frag)
@@ -147,5 +180,141 @@ public class HomeActivity extends AppCompatActivity
 
         transaction.commit();
     }
+
+    @Override
+    public void onWaitFragmentInteractionShow() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.frame_success_container, new WaitFragment(), "WAIT")
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onWaitFragmentInteractionHide() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .remove(getSupportFragmentManager().findFragmentByTag("WAIT"))
+                .commit();
+    }
+
+
+    private void handleBlogGetOnPostExecute(final String result) {
+    //parse JSON
+    try {
+        JSONObject root = new JSONObject(result);
+        if (root.has(getString(R.string.keys_json_blogs_response))) {
+            JSONObject response = root.getJSONObject(
+                    getString(R.string.keys_json_blogs_response));
+            if (response.has(getString(R.string.keys_json_blogs_data))) {
+                JSONArray data = response.getJSONArray(
+                        getString(R.string.keys_json_blogs_data));
+
+                List<BlogPost> blogs = new ArrayList<>();
+
+                for(int i = 0; i < data.length(); i++) {
+                    JSONObject jsonBlog = data.getJSONObject(i);
+
+                    blogs.add(new BlogPost.Builder(
+                            jsonBlog.getString(
+                                    getString(R.string.keys_json_blogs_pubdate)),
+                            jsonBlog.getString(
+                                    getString(R.string.keys_json_blogs_title)))
+                            .addTeaser(jsonBlog.getString(
+                                    getString(R.string.keys_json_blogs_teaser)))
+                            .addUrl(jsonBlog.getString(
+                                    getString(R.string.keys_json_blogs_url)))
+                            .build());
+                }
+
+                BlogPost[] blogsAsArray = new BlogPost[blogs.size()];
+                blogsAsArray = blogs.toArray(blogsAsArray);
+
+                Bundle args = new Bundle();
+                args.putSerializable(BlogFragment.ARG_BLOG_LIST, blogsAsArray);
+                Fragment frag = new BlogFragment();
+                frag.setArguments(args);
+
+                onWaitFragmentInteractionHide();
+                loadFragment(frag);
+            } else {
+                Log.e("ERROR!", "No data array");
+                //notify user
+                onWaitFragmentInteractionHide();
+            }
+        } else {
+            Log.e("ERROR!", "No response");
+            //notify user
+            onWaitFragmentInteractionHide();
+        }
+
+    } catch (JSONException e) {
+        e.printStackTrace();
+        Log.e("ERROR!", e.getMessage());
+        //notify user
+        onWaitFragmentInteractionHide();
+    }
+    }
+
+    private void handleSetListsOnPostExecute(final String result) {
+
+        Log.d("result"," " + result);
+        //parse JSON
+        try {
+            JSONObject root = new JSONObject(result);
+            if (root.has(getString(R.string.keys_json_lists_response))) {
+                JSONObject response = root.getJSONObject(
+                        getString(R.string.keys_json_blogs_response));
+                if (response.has(getString(R.string.keys_json_lists_data))) {
+                    JSONArray data = response.getJSONArray(
+                            getString(R.string.keys_json_lists_data));
+
+                    List<BlogPost> lists = new ArrayList<>();
+
+                    for(int i = 0; i < data.length(); i++) {
+                        JSONObject jsonList = data.getJSONObject(i);
+
+                        lists.add(new BlogPost.Builder(jsonList.getString(
+                                getString(R.string.keys_json_blogs_url)),
+                                jsonList.getString(
+                                        getString(R.string.keys_json_blogs_title)))
+                                .addLongDate(jsonList.getString(
+                                        getString(R.string.keys_json_lists_long_date)))
+                                .addLocation(jsonList.getString(
+                                        getString(R.string.keys_json_lists_location)))
+                                .addVenue(jsonList.getString(
+                                        getString(R.string.keys_json_lists_venue)))
+                                .build());
+                    }
+
+                    BlogPost[] listsAsArray = new BlogPost[lists.size()];
+                    listsAsArray = lists.toArray(listsAsArray);
+
+                    Bundle args = new Bundle();
+                    args.putSerializable(SetFragment.ARG_SET_LIST, listsAsArray);
+                    Fragment frag = new SetFragment();
+                    frag.setArguments(args);
+
+                    onWaitFragmentInteractionHide();
+                    //loadFragment(frag);
+                } else {
+                    Log.e("ERROR!", "No data array");
+                    //notify user
+                    onWaitFragmentInteractionHide();
+                }
+            } else {
+                Log.e("ERROR!", "No response");
+                //notify user
+                onWaitFragmentInteractionHide();
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("ERROR!", e.getMessage());
+            //notify user
+            onWaitFragmentInteractionHide();
+        }
+    }
+
 
 }

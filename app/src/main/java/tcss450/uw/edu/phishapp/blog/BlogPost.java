@@ -1,5 +1,7 @@
 package tcss450.uw.edu.phishapp.blog;
 
+import android.os.Bundle;
+
 import java.io.Serializable;
 
 /**
@@ -18,6 +20,9 @@ public class BlogPost implements Serializable {
     private final String mUrl;
     private final String mTeaser;
     private final String mAuthor;
+    private String mLongDate;
+    private String mLocation;
+    private String mVenue;
 
     /**
      * Helper class for building Credentials.
@@ -27,9 +32,13 @@ public class BlogPost implements Serializable {
     public static class Builder {
         private final String mPubDate;
         private final String mTitle;
+        private String mLongDate;
+        private String mLocation;
+        private String mVenue;
         private  String mUrl = "";
         private  String mTeaser = "";
         private  String mAuthor = "";
+
 
 
         /**
@@ -73,6 +82,20 @@ public class BlogPost implements Serializable {
             return this;
         }
 
+        public Builder addLongDate( String val) {
+            mLongDate = val;
+            return this;
+        }
+
+        public Builder addLocation(String val) {
+            mLocation = val;
+            return this;
+        }
+        public Builder addVenue(String val) {
+            mVenue = val;
+            return this;
+        }
+
         public BlogPost build() {
             return new BlogPost(this);
         }
@@ -85,6 +108,9 @@ public class BlogPost implements Serializable {
         this.mUrl = builder.mUrl;
         this.mTeaser = builder.mTeaser;
         this.mAuthor = builder.mAuthor;
+        this.mLongDate = builder.mLongDate;
+        this.mLocation = builder.mLocation;
+        this.mVenue = builder.mVenue;
     }
 
     public String getPubDate() {

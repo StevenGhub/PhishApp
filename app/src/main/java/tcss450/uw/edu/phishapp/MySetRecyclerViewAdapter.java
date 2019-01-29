@@ -1,27 +1,28 @@
 package tcss450.uw.edu.phishapp;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import tcss450.uw.edu.phishapp.BlogFragment.OnListFragmentInteractionListener;
+
+import tcss450.uw.edu.phishapp.SetFragment.OnListFragmentInteractionListener;
 import tcss450.uw.edu.phishapp.blog.BlogPost;
+import tcss450.uw.edu.phishapp.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link BlogPost} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyBlogRecyclerViewAdapter extends RecyclerView.Adapter<MyBlogRecyclerViewAdapter.ViewHolder> {
+public class MySetRecyclerViewAdapter extends RecyclerView.Adapter<MySetRecyclerViewAdapter.ViewHolder> {
 
     private final List<BlogPost> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyBlogRecyclerViewAdapter(List<BlogPost> items, OnListFragmentInteractionListener listener) {
+    public MySetRecyclerViewAdapter(List<BlogPost> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -29,16 +30,15 @@ public class MyBlogRecyclerViewAdapter extends RecyclerView.Adapter<MyBlogRecycl
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_blog, parent, false);
+                .inflate(R.layout.fragment_set, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mTileView.setText(mValues.get(position).getTitle());
-        holder.mDateView.setText(mValues.get(position).getPubDate());
-        holder.mTeaserView.setText(Html.fromHtml(mValues.get(position).getTeaser(), Html.FROM_HTML_MODE_COMPACT));
+        //holder.mIdView.setText(mValues.get(position).getPubDate());
+        //holder.mContentView.setText(mValues.get(position).content);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,23 +59,20 @@ public class MyBlogRecyclerViewAdapter extends RecyclerView.Adapter<MyBlogRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mTileView;
-        public final TextView mDateView;
-        public final TextView mTeaserView;
+        public final TextView mIdView;
+        public final TextView mContentView;
         public BlogPost mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mTileView = (TextView) view.findViewById(R.id.title);
-            mDateView = (TextView) view.findViewById(R.id.publish_date);
-            mTeaserView = (TextView) view.findViewById(R.id.teaser);
-
+            mIdView = (TextView) view.findViewById(R.id.item_number);
+            mContentView = (TextView) view.findViewById(R.id.content);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mTeaserView.getText() + "'";
+            return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
 }

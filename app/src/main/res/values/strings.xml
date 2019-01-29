@@ -16,6 +16,9 @@
     <string name="view_date_text">ViewDateText</string>
     <string name="view_teaser_text">ViewTeaserText</string>
     <string name="full_post">Full Post</string>
+    <string name="register_first_name">First Name</string>
+    <string name="register_last_name">Last Name</string>
+    <string name="register_nickname">Nickname</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

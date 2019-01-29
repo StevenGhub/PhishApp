@@ -1,4 +1,4 @@
-package tcss450.uw.edu.phishapp.model;
+package tcss450.uw.edu.phishapp;
 
 
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import tcss450.uw.edu.phishapp.R;
+import tcss450.uw.edu.phishapp.model.Credentials;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,9 +39,8 @@ public class SuccessFragment extends Fragment {
     public void onStart() {
         super.onStart();
         if (getArguments() != null) {
-            String s = getArguments().getString(getString(R.string.success_message));
-            updateContent(s);
-
+            Credentials credentials = (Credentials) getArguments().getSerializable("credentials message");
+            updateContent(credentials.getEmail());
         }
     }
 }

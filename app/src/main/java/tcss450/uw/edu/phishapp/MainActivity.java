@@ -8,14 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.io.Serializable;
+
 import tcss450.uw.edu.phishapp.model.Credentials;
-import tcss450.uw.edu.phishapp.model.LoginFragment;
-import tcss450.uw.edu.phishapp.model.RegisterFragment;
-import tcss450.uw.edu.phishapp.model.SuccessFragment;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnLoginFragmentInteractionListener ,
-        RegisterFragment.OnRegisterFragmentInteractionListener {
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+        RegisterFragment.OnRegisterFragmentInteractionListener{
+    public static final String EXTRA_MESSAGE = "credentials message";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +33,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
     @Override
     public void onLoginSuccess(Credentials login, String jwt) {
 
-        SuccessFragment successFragment = new SuccessFragment();
-
         Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra(EXTRA_MESSAGE,login.getEmail());
+        intent.putExtra(EXTRA_MESSAGE, login);
+        intent.putExtra(getString(R.string.keys_intent_jwt), jwt);
         startActivity(intent);
+        finish();
 
         /*Bundle args = new Bundle();
         args.putSerializable(getString(R.string.success_message), login.getEmail());
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction().replace(R.id.frame_main_container, registerFragment)
                 .addToBackStack(null);
-
         transaction.commit();
     }
 
@@ -78,5 +76,22 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
         }
 
         transaction.commit();
+    }
+
+    @Override
+    public void onWaitFragmentInteractionShow() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.frame_main_container, new WaitFragment(), "WAIT")
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onWaitFragmentInteractionHide() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .remove(getSupportFragmentManager().findFragmentByTag("WAIT"))
+                .commit();
     }
 }
