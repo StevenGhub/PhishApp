@@ -20,9 +20,11 @@ public class BlogPost implements Serializable {
     private final String mUrl;
     private final String mTeaser;
     private final String mAuthor;
-    private String mLongDate;
-    private String mLocation;
-    private String mVenue;
+    private final String mLongDate;
+    private final String mLocation;
+    private final String mVenue;
+    private final String mListData;
+    private final String mListNote;
 
     /**
      * Helper class for building Credentials.
@@ -32,9 +34,11 @@ public class BlogPost implements Serializable {
     public static class Builder {
         private final String mPubDate;
         private final String mTitle;
-        private String mLongDate;
-        private String mLocation;
-        private String mVenue;
+        private String mLongDate = "";
+        private String mLocation = "";
+        private String mVenue = "";
+        private String mListData = "";
+        private String mListNote = "";
         private  String mUrl = "";
         private  String mTeaser = "";
         private  String mAuthor = "";
@@ -95,6 +99,14 @@ public class BlogPost implements Serializable {
             mVenue = val;
             return this;
         }
+        public Builder addListData(String val) {
+            mListData = val;
+            return this;
+        }
+        public Builder addListNote(String val) {
+            mListNote = val;
+            return this;
+        }
 
         public BlogPost build() {
             return new BlogPost(this);
@@ -111,6 +123,8 @@ public class BlogPost implements Serializable {
         this.mLongDate = builder.mLongDate;
         this.mLocation = builder.mLocation;
         this.mVenue = builder.mVenue;
+        this.mListData = builder.mListData;
+        this.mListNote = builder.mListNote;
     }
 
     public String getPubDate() {
@@ -133,5 +147,14 @@ public class BlogPost implements Serializable {
         return mAuthor;
     }
 
+    public String getLongDate() {return mLongDate;}
+
+    public String getLocation() {return mLocation;}
+
+    public String getVenue() {return mVenue;}
+
+    public String getListData() {return mListData;}
+
+    public String getListNote() {return mListNote;}
 
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BlogPostFragment">
+    tools:context=".SetPostFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -12,8 +12,8 @@
         android:id="@+id/longDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/view_title_text"
+        android:layout_marginTop="32dp"
+        android:text="@string/view_long_date_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,24 +22,25 @@
         android:id="@+id/locationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/view_date_text"
+        android:layout_marginTop="16dp"
+        android:text="@string/view_location_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/longDateTextView" />
 
     <TextView
-        android:id="@+id/View_teaser"
+        android:id="@+id/setListDataTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/view_teaser_text"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/view_set_list_data_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locationTextView" />
 
     <Button
-        android:id="@+id/full_post"
+        android:id="@+id/full_post_Set_List"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -47,4 +48,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/setListNoteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/view_set_list_note_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setListDataTextView" />
+
 </android.support.constraint.ConstraintLayout>

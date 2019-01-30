@@ -10,15 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tcss450.uw.edu.phishapp.blog.BlogGenerator;
 import tcss450.uw.edu.phishapp.blog.BlogPost;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnSetFragmentInteractionListener}
  * interface.
  */
 public class SetFragment extends Fragment {
@@ -31,7 +34,7 @@ public class SetFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private OnSetFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -55,7 +58,10 @@ public class SetFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            mLists = new ArrayList<BlogPost>(
+                    Arrays.asList((BlogPost[]) getArguments().getSerializable(ARG_SET_LIST)));
+        } else {
+            mLists = Arrays.asList(BlogGenerator.BLOGS);
         }
     }
 
@@ -82,8 +88,8 @@ public class SetFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof OnSetFragmentInteractionListener) {
+            mListener = (OnSetFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -106,8 +112,8 @@ public class SetFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
+    public interface OnSetFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(BlogPost item);
+        void onSetFragmentInteraction(BlogPost item);
     }
 }

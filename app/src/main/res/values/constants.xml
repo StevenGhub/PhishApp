@@ -22,7 +22,10 @@
 
     <string name="keys_json_lists_response">response</string>
     <string name="keys_json_lists_data">data</string>
+    <string name="keys_json_lists_short_date">short_date</string>
     <string name="keys_json_lists_long_date">long_date</string>
     <string name="keys_json_lists_location">location</string>
     <string name="keys_json_lists_venue">venue</string>
+    <string name="keys_json_lists_list_data">setlistdata</string>
+    <string name="keys_json_lists_list_note">setlistnotes</string>
 </resources>

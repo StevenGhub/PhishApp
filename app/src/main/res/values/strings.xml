@@ -19,6 +19,13 @@
     <string name="register_first_name">First Name</string>
     <string name="register_last_name">Last Name</string>
     <string name="register_nickname">Nickname</string>
+    <string name="set_fragment_long_date">Long Date</string>
+    <string name="set_fragment_location">Location</string>
+    <string name="set_fragment_venue">Veneu</string>
+    <string name="view_long_date_text">ViewLongDateText</string>
+    <string name="view_location_text">ViewLocationText</string>
+    <string name="view_set_list_data_text">ViewSetListDataText</string>
+    <string name="view_set_list_note_text">ViewSetListNoteText</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

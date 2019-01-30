@@ -30,6 +30,7 @@ import tcss450.uw.edu.phishapp.model.Credentials;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         BlogFragment.OnListFragmentInteractionListener,
+        SetFragment.OnSetFragmentInteractionListener,
         WaitFragment.OnFragmentInteractionListener{
 
     private SuccessFragment successFragment;
@@ -117,6 +118,8 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Log.d("token ", " " + mJwToken);
+
         if (id == R.id.menuHome) {
             loadFragment(successFragment);
         } else if (id == R.id.menuBlog) {
@@ -146,10 +149,11 @@ public class HomeActivity extends AppCompatActivity
                     .onPostExecute(this::handleSetListsOnPostExecute)
                     .addHeaderField("authorization", mJwToken) //add the JWT as a header
                     .build().execute();
-        }
 
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        Log.d("got here!!", " After for loop");
         return true;
     }
 
@@ -180,12 +184,32 @@ public class HomeActivity extends AppCompatActivity
 
         transaction.commit();
     }
+    @Override
+    public void onSetFragmentInteraction(BlogPost theItem) {
+        SetPostFragment bpf = new SetPostFragment();
+        Bundle args = new Bundle();
+
+        args.putSerializable(getString(R.string.view_long_date_text), theItem.getLongDate());
+        args.putSerializable(getString(R.string.view_location_text), theItem.getLocation());
+        args.putSerializable(getString(R.string.view_set_list_data_text), theItem.getListData());
+        args.putSerializable(getString(R.string.view_set_list_note_text), theItem.getListNote());
+        args.putSerializable(getString(R.string.full_post), theItem.getUrl());
+
+        bpf.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_home, bpf)
+                .addToBackStack(null);
+
+        transaction.commit();
+    }
 
     @Override
     public void onWaitFragmentInteractionShow() {
+        Log.d("Wait ", " fragment interraction show");
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.frame_success_container, new WaitFragment(), "WAIT")
+                .add(R.id.content_home, new WaitFragment(), "WAIT")
                 .addToBackStack(null)
                 .commit();
     }
@@ -211,6 +235,8 @@ public class HomeActivity extends AppCompatActivity
                         getString(R.string.keys_json_blogs_data));
 
                 List<BlogPost> blogs = new ArrayList<>();
+
+                //mJwToken = root.getString(getString(R.string.keys_json_login_jwt));
 
                 for(int i = 0; i < data.length(); i++) {
                     JSONObject jsonBlog = data.getJSONObject(i);
@@ -257,7 +283,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void handleSetListsOnPostExecute(final String result) {
-
+        Log.d("got here!!", " In handle set list ");
         Log.d("result"," " + result);
         //parse JSON
         try {
@@ -277,13 +303,19 @@ public class HomeActivity extends AppCompatActivity
                         lists.add(new BlogPost.Builder(jsonList.getString(
                                 getString(R.string.keys_json_blogs_url)),
                                 jsonList.getString(
-                                        getString(R.string.keys_json_blogs_title)))
+                                        getString(R.string.keys_json_lists_short_date)))
                                 .addLongDate(jsonList.getString(
                                         getString(R.string.keys_json_lists_long_date)))
                                 .addLocation(jsonList.getString(
                                         getString(R.string.keys_json_lists_location)))
                                 .addVenue(jsonList.getString(
                                         getString(R.string.keys_json_lists_venue)))
+                                .addUrl(jsonList.getString(
+                                        getString(R.string.keys_json_blogs_url)))
+                                .addListData(jsonList.getString(
+                                        getString(R.string.keys_json_lists_list_data)))
+                                .addListNote(jsonList.getString(
+                                        getString(R.string.keys_json_lists_list_note)))
                                 .build());
                     }
 
@@ -294,9 +326,10 @@ public class HomeActivity extends AppCompatActivity
                     args.putSerializable(SetFragment.ARG_SET_LIST, listsAsArray);
                     Fragment frag = new SetFragment();
                     frag.setArguments(args);
+                    Log.d("got here!!", " After frag");
 
                     onWaitFragmentInteractionHide();
-                    //loadFragment(frag);
+                    loadFragment(frag);
                 } else {
                     Log.e("ERROR!", "No data array");
                     //notify user

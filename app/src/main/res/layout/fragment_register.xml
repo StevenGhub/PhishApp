@@ -18,6 +18,7 @@
         android:ems="10"
         android:hint="@string/new_password"
         android:inputType="textPassword"
+        android:text="123123"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +34,7 @@
         android:ems="10"
         android:hint="@string/new_email"
         android:inputType="textEmailAddress"
+        android:text="stevenTest@test"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +50,7 @@
         android:ems="10"
         android:hint="@string/retype_password"
         android:inputType="textPassword"
+        android:text="123123"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +75,7 @@
         android:ems="10"
         android:hint="@string/register_nickname"
         android:inputType="textPersonName"
+        android:text="steven"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,6 +88,7 @@
         android:ems="10"
         android:hint="@string/register_first_name"
         android:inputType="textPersonName"
+        android:text="steven"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userName" />
 
@@ -96,6 +101,7 @@
         android:ems="10"
         android:hint="@string/register_last_name"
         android:inputType="textPersonName"
+        android:text="huang"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstName" />
 </android.support.constraint.ConstraintLayout>
