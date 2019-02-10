@@ -169,9 +169,37 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             } else {
                 //Register was unsuccessful. Don’t switch fragments and
                 // inform the user
-                ((TextView) getView().findViewById(R.id.newEmail))
-                        .setError("Register Unsuccessful1");
-                Log.d("error"," " + result);
+                Log.w("test json", " " + resultsJSON.get("error"));
+                String error = (String) resultsJSON.get("error");
+                if(error.equals("first")) {
+                    ((TextView) getView().findViewById(R.id.firstName))
+                            .setError("First Name Can Not Be Null");
+                    Log.d("error"," " + result);
+                } else if (error.equals("last")) {
+                    ((TextView) getView().findViewById(R.id.lastName))
+                            .setError("Last Name Can Not Be Null");
+                    Log.d("error"," " + result);
+                } else if (error.equals("username")) {
+                    ((TextView) getView().findViewById(R.id.userName))
+                            .setError("UserName Can Not Be Null");
+                    Log.d("error"," " + result);
+                } else if (error.equals("email")) {
+                    ((TextView) getView().findViewById(R.id.newEmail))
+                            .setError("Email Can Not Be Null");
+                    Log.d("error"," " + result);
+                } else if (error.equals("password")) {
+                    ((TextView) getView().findViewById(R.id.newPassword))
+                            .setError("Password Can Not Be Null");
+                    Log.d("error"," " + result);
+                } else if (error.contains("username")) {
+                    ((TextView) getView().findViewById(R.id.userName))
+                            .setError("Username already exists");
+                    Log.d("error"," " + result);
+                } else if (error.contains("email")) {
+                    ((TextView) getView().findViewById(R.id.newEmail))
+                            .setError("Email already exits");
+                    Log.d("error"," " + result);
+                }
             }
             mListener.onWaitFragmentInteractionHide();
         } catch (JSONException e) {
