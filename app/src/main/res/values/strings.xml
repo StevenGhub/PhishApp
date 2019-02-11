@@ -26,6 +26,7 @@
     <string name="view_location_text">ViewLocationText</string>
     <string name="view_set_list_data_text">ViewSetListDataText</string>
     <string name="view_set_list_note_text">ViewSetListNoteText</string>
+    <string name="action_logout">Logout</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
