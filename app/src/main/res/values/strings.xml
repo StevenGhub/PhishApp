@@ -27,6 +27,7 @@
     <string name="view_set_list_data_text">ViewSetListDataText</string>
     <string name="view_set_list_note_text">ViewSetListNoteText</string>
     <string name="action_logout">Logout</string>
+    <string name="Global_Chat">Global Chat</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
