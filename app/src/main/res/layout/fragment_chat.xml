@@ -1,38 +1,50 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="chh24.uw.edu.phishapp.ChatFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:id="@+id/text_chat_message_display"
-        android:layout_width="0dp"
-        android:layout_height="434dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/edit_chat_message_input"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     <EditText
         android:id="@+id/edit_chat_message_input"
-        android:layout_width="229dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button_chat_send"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button_chat_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:icon="@android:drawable/ic_menu_send"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="9dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="24dp"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <ImageButton
+        android:id="@+id/button_chat_send"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="13dp"
+        android:src="@drawable/ic_menu_send" />
+    </RelativeLayout>
+</LinearLayout>

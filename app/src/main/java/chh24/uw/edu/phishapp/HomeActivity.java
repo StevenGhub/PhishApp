@@ -75,9 +75,9 @@ public class HomeActivity extends AppCompatActivity
             fragment.setArguments(args);
         }
 
-        successFragment.setArguments(args);
+        //successFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction().add(R.id.content_home, successFragment)
+                .beginTransaction().add(R.id.content_home, fragment)
                 .disallowAddToBackStack();
         transaction.commit();
 
